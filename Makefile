@@ -6,3 +6,6 @@ run:
 
 test:
 	GO111MODULE=on go test ./...
+
+godog:
+	godog --strict
