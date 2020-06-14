@@ -1,11 +1,37 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"os"
+	"testing"
 
 	"github.com/cucumber/godog"
+	"github.com/cucumber/godog/colors"
 	"github.com/cucumber/messages-go/v10"
 )
+
+var opts = godog.Options{
+	Output: colors.Colored(os.Stdout),
+}
+
+func init() {
+	godog.BindFlags("godog.", flag.CommandLine, &opts)
+}
+
+func TestMain(m *testing.M) {
+	flag.Parse()
+	opts.Paths = flag.Args()
+
+	status := godog.RunWithOptions("godogs", func(s *godog.Suite) {
+		FeatureContext(s)
+	}, opts)
+
+	if st := m.Run(); st > status {
+		status = st
+	}
+	os.Exit(status)
+}
 
 type state struct {
 	Godogs int
