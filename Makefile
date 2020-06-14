@@ -3,3 +3,6 @@ build:
 
 run:
 	GO111MODULE=on go run cmd/app/main.go
+
+test:
+	GO111MODULE=on go test ./...
